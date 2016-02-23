@@ -48,8 +48,22 @@ sudo /usr/local/bin/cpanm ExtUtils::MakeMaker
 sudo /usr/local/bin/cpanm --force Module::Compile
 sudo /usr/local/bin/cpanm XML::LibXSLT
 sudo /usr/local/bin/cpanm PDL
+sudo /usr/local/bin/cpanm Archive::Extract
+sudo /usr/local/bin/cpanm Time::HiRes
+sudo /usr/local/bin/cpanm Compress::Zlib
+sudo /usr/local/bin/cpanm Archive::Tar
+sudo /usr/local/bin/cpanm Archive::Zip
+sudo /usr/local/bin/cpanm CGI
+sudo /usr/local/bin/cpanm DBI
 
-#Install slurm
+sudo yum install -y ruby ruby-irb
+sudo yum install -y readline-devel sqlite-devel
+sudo yum install -y freetype-devel libpng-devel blas-devel lapack-devel
+
+#gnu parallel
+sudo yum install -y http://linuxsoft.cern.ch/cern/centos/7/cern/x86_64/Packages/parallel-20150522-1.el7.cern.noarch.rpm
+
+###Install slurm
 
 # First all the munge stuff
 sudo yum install -y openssl-devel
@@ -72,16 +86,13 @@ cd slurm-*/
 make
 sudo make install
 sudo cp /vagrant/slurm/slurm.conf /usr/local/etc/
-sudo cp /vagrant/slurm/slurm.service /etc/rc.d/init.d/slurm
+sudo cp /vagrant/slurm/slurm.service.txt /etc/rc.d/init.d/slurm
 sudo chmod a+x /etc/rc.d/init.d/slurm
 sudo chkconfig --add slurm
 sudo service slurm start
 sudo chkconfig slurm on
 
-sudo yum install -y ruby ruby-irb
-sudo yum install -y readline-devel sqlite-devel
-sudo yum install -y freetype-devel libpng-devel blas-devel lapack-devel
-
+# let vagrant user own it's bin
 sudo chown -R vagrant:vagrant /home/vagrant/bin
 
 SCRIPT
@@ -97,8 +108,10 @@ Vagrant.configure("2") do |global_config|
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
 
-	    config.vm.synced_folder "~/bin/autoseq", "/home/vagrant/bin/autoseq"
-	    config.vm.synced_folder "~/projects", "/home/vagrant/projects"
+            config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "~/pyautoseq"
+            config.vm.synced_folder "~/bin/autoseq", "/home/vagrant/bin/autoseq"
+            config.vm.synced_folder "~/bin/pipeline-tools", "/home/vagrant/bin/pipeline-tools"
+            config.vm.synced_folder "~/projects", "/home/vagrant/projects"
             config.vm.synced_folder "/proj", "/proj"
 
             #VM specifications
@@ -113,3 +126,4 @@ Vagrant.configure("2") do |global_config|
         end
     end
 end
+
