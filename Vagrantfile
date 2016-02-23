@@ -108,7 +108,7 @@ Vagrant.configure("2") do |global_config|
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
 
-            config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "~/pyautoseq"
+            config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "/home/vagrant/pyautoseq"
             config.vm.synced_folder "~/bin/autoseq", "/home/vagrant/bin/autoseq"
             config.vm.synced_folder "~/bin/pipeline-tools", "/home/vagrant/bin/pipeline-tools"
             config.vm.synced_folder "~/projects", "/home/vagrant/projects"
