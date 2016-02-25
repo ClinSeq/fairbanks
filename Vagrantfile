@@ -76,6 +76,16 @@ sudo cp /tmp/munge.key /etc/munge/munge.key
 sudo service munge start
 sudo chkconfig munge on
 
+# create slurm user
+sudo adduser --no-create-home slurm
+sudo mkdir /usr/local/slurm
+sudo chown slurm /usr/local/slurm
+sudo chgrp slurm /usr/local/slurm
+sudo mkdir /usr/local/slurm/state
+sudo chown slurm /usr/local/slurm/state
+sudo chgrp slurm /usr/local/slurm/state
+
+
 # Download the slurm source
 wget --no-clobber -P /tmp https://github.com/SchedMD/slurm/archive/slurm-15-08-8-1.tar.gz
 cd /tmp
