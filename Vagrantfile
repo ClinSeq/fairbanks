@@ -18,7 +18,7 @@ sudo yum -y groupinstall "Development tools"
 
 sudo yum install -y java-1.7.0-openjdk-devel
 sudo yum install -y /vagrant/sbt/sbt-0.13.5.rpm
-sudo yum install -y git nano
+sudo yum install -y git nano mailx
 
 # prereqs for for R and python: 
 sudo yum install -y emacs git perl-ExtUtils-MakeMaker zlib zlib-devel libcurl-devel
@@ -26,17 +26,15 @@ sudo yum install -y readline-devel bzip2-devel sqlite-devel openssl-devel
 
 sudo yum install -y emacs-nox samba gnuplot PyXML ImageMagick libxslt-devel libxml2-devel ncurses-devel libtiff-devel bzip2-devel zlib-devel perl-XML-LibXML perl-XML-LibXML-Common perl-XML-NamespaceSupport perl-XML-SAX perl-XML-Simple pigz
 
-wget --no-clobber -P /tmp  http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
 cd /tmp
-sudo rpm -ivh epel-release-6-8.noarch.rpm
+sudo rpm -ivh epel-release-7-5.noarch.rpm
 
 sudo yum install -y ant ant-nodeps
-
 sudo yum install -y htop
 
 
 #Install the perl modules!
-
 sudo yum install -y perl-PDL perl-PerlIO-gzip
 sudo yum install -y perl-devel perl rsync dos2unix perl-CPAN gcc zlib-devel.x86_64 zlib.x86_64 expat-devel
 curl -L http://cpanmin.us | perl - --sudo App::cpanminus
@@ -67,10 +65,11 @@ sudo yum install -y http://linuxsoft.cern.ch/cern/centos/7/cern/x86_64/Packages/
 
 # First all the munge stuff
 sudo yum install -y openssl-devel
-wget --no-clobber -P /tmp https://munge.googlecode.com/files/munge-0.5.11.tar.bz2
+wget --no-clobber -P /tmp https://github.com/dun/munge/releases/download/munge-0.5.11/munge-0.5.11.tar.bz2
 
 cd /tmp
-rpmbuild -tb --clean munge-0.5.11.tar.bz2
+# needed to build on centos7, from: https://github.com/dun/munge/issues/27
+rpmbuild --define '_unpackaged_files_terminate_build 0' -ta munge-0.5.11.tar.bz2
 sudo rpm -ivh /root/rpmbuild/RPMS/x86_64/munge-*
 dd if=/dev/urandom bs=1 count=1024 > /tmp/munge.key
 sudo cp /tmp/munge.key /etc/munge/munge.key
@@ -78,7 +77,7 @@ sudo service munge start
 sudo chkconfig munge on
 
 # Download the slurm source
-wget --no-clobber -P /tmp https://github.com/SchedMD/slurm/archive/slurm-14-03-7-1.tar.gz
+wget --no-clobber -P /tmp https://github.com/SchedMD/slurm/archive/slurm-15-08-8-1.tar.gz
 cd /tmp
 tar -z -x -f slurm-*
 cd slurm-*/
@@ -98,13 +97,13 @@ sudo chown -R vagrant:vagrant /home/vagrant/bin
 SCRIPT
 
 #--------------------------------------
-# Fire up the machines
+# Fire up the machine
 #--------------------------------------
 Vagrant.configure("2") do |global_config|
     machines.each_pair do |name, options|
         global_config.vm.define name do |config|
             #VM configurations
-            config.vm.box = "bento/centos-6.7"
+            config.vm.box = "bento/centos-7.1"
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
 
