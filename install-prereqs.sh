@@ -26,6 +26,7 @@ pip install --upgrade vcf_parser
 pip install --upgrade git+https://github.com/ewels/MultiQC.git
 pip install --upgrade git+https://github.com/dakl/localq.git
 pip install --upgrade git+https://dakl@bitbucket.org/dakl/pypedream.git
+pip install --upgrade git+https://github.com/dakl/multiqc-alascca.git
 
 #pip install --upgrade git+https://dakl@bitbucket.org/dakl/pyautoseq.git
 cd $HOME
