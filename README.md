@@ -4,7 +4,7 @@ Development machine and staging server for the ALASCCA study at Karolinska Insti
 
 Features:
 
-* Centos6.7 (TODO update to Centos7)
+* Centos7.1
 * Slurm
   
 ### Scripts to run to install prerequsistes for (py)autoseq in user space:
