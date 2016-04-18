@@ -108,7 +108,7 @@ cd msodbcsql-13.0.0.0
 cd /tmp/unixODBC*/unixODBC-2.3.1
 sudo make install
 cd /tmp/msodbcsql-13.0.0.0
-./install.sh verify
+sudo ./install.sh verify
 sudo ./install.sh install --accept-license
 
 sudo mkdir -p /scratch/tmp/
