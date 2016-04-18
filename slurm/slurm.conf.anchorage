@@ -8,8 +8,8 @@
 #
 # See the slurm.conf man page for more information.
 #
-ClusterName=fairbankscluster
-ControlMachine=fairbanks
+ClusterName=anchoragecluster
+ControlMachine=anchorage
 SlurmUser=slurm
 SlurmctldPort=6817
 SlurmdPort=6818
@@ -47,5 +47,5 @@ SlurmdDebug=3
 JobCompType=jobcomp/filetxt
 JobCompLoc=/usr/local/slurm/jobs.log
 # FAKE COMPUTE NODES
-NodeName=fairbanks NodeHostName=localhost NodeAddr=127.0.0.1 Sockets=2 CoresPerSocket=1 ThreadsPerCore=1
-PartitionName=core Nodes=fairbanks Default=YES MaxTime=INFINITE State=UP
+NodeName=anchorage NodeHostName=localhost NodeAddr=127.0.0.1 Sockets=2 CoresPerSocket=14 ThreadsPerCore=1
+PartitionName=core Nodes=anchorage Default=YES MaxTime=INFINITE State=UP
