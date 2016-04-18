@@ -100,16 +100,15 @@ sudo chkconfig slurm on
 # make accounting file world readable in order to enable `sacct -j jobid` for users to get job stats
 sudo chmod a+r /usr/local/slurm/slurm_accounting.log
 
+# MSSQL driver (and unixODBC driver manager)
+sudo yum install unixODBC.x86_64
 cd /tmp
 wget https://download.microsoft.com/download/B/C/D/BCDD264C-7517-4B7D-8159-C99FC5535680/msodbcsql-13.0.0.0.tar.gz
 tar xvfz msodbcsql-13.0.0.0.tar.gz
 cd msodbcsql-13.0.0.0
-./build_dm.sh --accept-warning
-cd /tmp/unixODBC*/unixODBC-2.3.1
-sudo make install
-cd /tmp/msodbcsql-13.0.0.0
 sudo ./install.sh verify
 sudo ./install.sh install --accept-license
+
 
 sudo mkdir -p /scratch/tmp/
 sudo chmod a+w /scratch/tmp
