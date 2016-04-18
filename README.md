@@ -6,12 +6,21 @@ Features:
 
 * Centos7.1
 * Slurm
+* MSSQL ODBC driver
   
-### Scripts to run to install prerequsistes for (py)autoseq in user space:
+## Install prerequsistes and (py)autoseq in user space
+
+(will require login for certain packages)
 
 ```bash
+cd /nfs/ALASCCA
+git clone https://github.com/ClinSeq/alascca-dotfiles.git
+cd alascca-dotfiles
 sh install-prereqs.sh
 ```
 
-This will assume that `$HOME/miniconda2/bin` is already in $PATH, so make sure to set it before. I do it with my set of [dotfiles](https://github.com/dakl/dotfiles).
+## "Start" production environment
 
+```bash
+. /nfs/ALASCCA/alascca-dotfiles/.bash_profile
+```
