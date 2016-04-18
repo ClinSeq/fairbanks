@@ -100,6 +100,17 @@ sudo chkconfig slurm on
 # make accounting file world readable in order to enable `sacct -j jobid` for users to get job stats
 sudo chmod a+r /usr/local/slurm/slurm_accounting.log
 
+cd /tmp
+wget https://download.microsoft.com/download/B/C/D/BCDD264C-7517-4B7D-8159-C99FC5535680/msodbcsql-13.0.0.0.tar.gz
+tar xvfz msodbcsql-13.0.0.0.tar.gz
+cd msodbcsql-13.0.0.0
+./build_dm.sh --accept-warning
+cd /tmp/unixODBC*/unixODBC-2.3.1
+sudo make install
+cd /tmp/msodbcsql-13.0.0.0
+./install.sh verify
+sudo ./install.sh install --accept-license
+
 sudo mkdir -p /scratch/tmp/
 sudo chmod a+w /scratch/tmp
 
@@ -116,17 +127,11 @@ Vagrant.configure("2") do |global_config|
         global_config.vm.define name do |config|
             #VM configurations
             config.vm.box = "bento/centos-7.1"
-            config.vm.hostname = "#{name}"
-            config.vm.network :private_network, ip: options[:ipaddress]
+	    config.vm.hostname = "#{name}"
+	    config.vm.network :private_network, ip: options[:ipaddress]
 
-            config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "/home/vagrant/pyautoseq"
-            config.vm.synced_folder "~/bin/autoseq", "/home/vagrant/bin/autoseq"
-            config.vm.synced_folder "~/bin/pipeline-tools", "/home/vagrant/bin/pipeline-tools"
-            config.vm.synced_folder "~/projects", "/home/vagrant/projects"
-            config.vm.synced_folder "/proj", "/proj"
-
-            #VM specifications
-            config.vm.provider :virtualbox do |v|
+	    #VM specifications
+	    config.vm.provider :virtualbox do |v|
 		v.customize ["modifyvm", :id, "--memory", "6000", "--cpus", 2]
             end
 
