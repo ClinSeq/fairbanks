@@ -143,12 +143,20 @@ Vagrant.configure("2") do |global_config|
         global_config.vm.define name do |config|
             #VM configurations
             config.vm.box = "bento/centos-7.1"
-	    config.vm.hostname = "#{name}"
-	    config.vm.network :private_network, ip: options[:ipaddress]
+			config.vm.hostname = "#{name}"
+			config.vm.network :private_network, ip: options[:ipaddress]
 
-	    #VM specifications
-	    config.vm.provider :virtualbox do |v|
-		v.customize ["modifyvm", :id, "--memory", "6000", "--cpus", 2]
+			config.vm.synced_folder "/proj/b2010040/python/aurora", "/nfs/ALASCCA/aurora"
+			config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/autoseq-genome", "/nfs/ALASCCA/autoseq-genome"
+			config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/INBOX", "/nfs/ALASCCA/INBOX"
+			config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "/nfs/ALASCCA/pyautoseq"
+                        config.vm.synced_folder "/Users/dankle/repos/autoseq-test-data/", "/nfs/ALASCCA/autoseq-test-data"
+
+                        config.vm.synced_folder "/Users/dankle/repos/", "/home/vagrant/repos"
+
+			#VM specifications
+			config.vm.provider :virtualbox do |v|
+			v.customize ["modifyvm", :id, "--memory", "6000", "--cpus", 2]
             end
 
             #VM provisioning
