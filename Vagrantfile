@@ -113,6 +113,19 @@ cd msodbcsql-13.0.0.0
 sudo ./install.sh verify
 sudo ./install.sh install --accept-license
 
+# postgres server
+sudo yum install -y postgresql-server postgresql-contrib
+sudo postgresql-setup initdb
+sudo sed -i s/\ ident/\ md5/ /var/lib/pgsql/data/pg_hba.conf
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+echo "CREATE DATABASE referrals;" | sudo -u postgres psql
+echo "CREATE USER referral_reader WITH PASSWORD 'reader';" | sudo -u postgres psql
+echo "GRANT SELECT ON ALL TABLES IN SCHEMA public TO referral_reader;" | sudo -u postgres psql
+echo "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO referral_reader;" | sudo -u postgres psql
+echo "CREATE USER referral_writer WITH PASSWORD 'inserter' CREATEDB;" | sudo -u postgres psql
+echo "GRANT ALL PRIVILEGES ON DATABASE referrals TO referral_writer;" | sudo -u postgres psql
 
 sudo mkdir -p /scratch/tmp/
 sudo chmod a+w /scratch/tmp
