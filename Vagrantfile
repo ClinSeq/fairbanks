@@ -26,7 +26,11 @@ sudo yum install -y readline-devel bzip2-devel sqlite-devel openssl-devel
 
 sudo yum install -y emacs-nox samba gnuplot ImageMagick libxslt-devel libxml2-devel ncurses-devel libtiff-devel bzip2-devel zlib-devel perl-XML-LibXML perl-XML-LibXML-Common perl-XML-NamespaceSupport perl-XML-SAX perl-XML-Simple pigz
 
-wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-5.noarch.rpm
+# for gtfTogenepred
+sudo yum install -y libpng12
+
+# epel
+wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
 cd /tmp
 sudo rpm -ivh epel-release-7-5.noarch.rpm
 
