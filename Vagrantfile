@@ -32,7 +32,7 @@ sudo yum install -y libpng12
 # epel
 wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
 cd /tmp
-sudo rpm -ivh epel-release-7-5.noarch.rpm
+sudo rpm -ivh epel-release-7-6.noarch.rpm
 
 sudo yum install -y ant
 sudo yum install -y htop
