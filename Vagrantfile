@@ -146,12 +146,13 @@ Vagrant.configure("2") do |global_config|
 			config.vm.hostname = "#{name}"
 			config.vm.network :private_network, ip: options[:ipaddress]
 
-			config.vm.synced_folder "/proj/b2010040/python/aurora", "/nfs/ALASCCA/aurora"
+			config.vm.synced_folder "/Users/dankle/repos/aurora", "/nfs/ALASCCA/aurora"
 			config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/autoseq-genome", "/nfs/ALASCCA/autoseq-genome"
 			config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/INBOX", "/nfs/ALASCCA/INBOX"
-			config.vm.synced_folder "/proj/b2010040/python/pyautoseq", "/nfs/ALASCCA/pyautoseq"
                         config.vm.synced_folder "/Users/dankle/repos/autoseq-test-data/", "/nfs/ALASCCA/autoseq-test-data"
 
+                        config.vm.synced_folder "/Users/dankle/repos/autoseq-scripts/", "/home/vagrant/autoseq-scripts"
+                        config.vm.synced_folder "/proj/b2010040/python/autoseq", "/home/vagrant/autoseq"
                         config.vm.synced_folder "/Users/dankle/repos/", "/home/vagrant/repos"
 
 			#VM specifications
