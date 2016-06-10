@@ -127,6 +127,9 @@ echo "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO referr
 echo "CREATE USER referral_writer WITH PASSWORD 'inserter' CREATEDB;" | sudo -u postgres psql
 echo "GRANT ALL PRIVILEGES ON DATABASE referrals TO referral_writer;" | sudo -u postgres psql
 
+# load example data
+sudo -u postgres psql referrals < /vagrant/dbdump.txt
+
 sudo mkdir -p /scratch/tmp/
 sudo chmod a+w /scratch/tmp
 
