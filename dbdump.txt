@@ -1,0 +1,198 @@
+--
+-- PostgreSQL database dump
+--
+
+SET statement_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: alascca_bloodreferrals; Type: TABLE; Schema: public; Owner: referral_writer; Tablespace: 
+--
+
+CREATE TABLE alascca_bloodreferrals (
+    crid integer NOT NULL,
+    pnr character varying NOT NULL,
+    collection_date date NOT NULL,
+    collection_time integer,
+    signed integer,
+    hospital_code integer,
+    county character varying,
+    barcode1 integer,
+    barcode2 integer,
+    barcode3 integer,
+    file_name character varying
+);
+
+
+ALTER TABLE public.alascca_bloodreferrals OWNER TO referral_writer;
+
+--
+-- Name: alascca_bloodreferrals_crid_seq; Type: SEQUENCE; Schema: public; Owner: referral_writer
+--
+
+CREATE SEQUENCE alascca_bloodreferrals_crid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.alascca_bloodreferrals_crid_seq OWNER TO referral_writer;
+
+--
+-- Name: alascca_bloodreferrals_crid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: referral_writer
+--
+
+ALTER SEQUENCE alascca_bloodreferrals_crid_seq OWNED BY alascca_bloodreferrals.crid;
+
+
+--
+-- Name: alascca_tissuereferrals; Type: TABLE; Schema: public; Owner: referral_writer; Tablespace: 
+--
+
+CREATE TABLE alascca_tissuereferrals (
+    crid integer NOT NULL,
+    pnr character varying NOT NULL,
+    collection_date date NOT NULL,
+    radiotherapy integer,
+    sectioning_date date,
+    pad character varying,
+    hospital_code integer,
+    county character varying,
+    barcode1 integer,
+    barcode2 integer,
+    comments character varying,
+    file_name character varying
+);
+
+
+ALTER TABLE public.alascca_tissuereferrals OWNER TO referral_writer;
+
+--
+-- Name: alascca_tissuereferrals_crid_seq; Type: SEQUENCE; Schema: public; Owner: referral_writer
+--
+
+CREATE SEQUENCE alascca_tissuereferrals_crid_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.alascca_tissuereferrals_crid_seq OWNER TO referral_writer;
+
+--
+-- Name: alascca_tissuereferrals_crid_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: referral_writer
+--
+
+ALTER SEQUENCE alascca_tissuereferrals_crid_seq OWNED BY alascca_tissuereferrals.crid;
+
+
+--
+-- Name: crid; Type: DEFAULT; Schema: public; Owner: referral_writer
+--
+
+ALTER TABLE ONLY alascca_bloodreferrals ALTER COLUMN crid SET DEFAULT nextval('alascca_bloodreferrals_crid_seq'::regclass);
+
+
+--
+-- Name: crid; Type: DEFAULT; Schema: public; Owner: referral_writer
+--
+
+ALTER TABLE ONLY alascca_tissuereferrals ALTER COLUMN crid SET DEFAULT nextval('alascca_tissuereferrals_crid_seq'::regclass);
+
+
+--
+-- Data for Name: alascca_bloodreferrals; Type: TABLE DATA; Schema: public; Owner: referral_writer
+--
+
+COPY alascca_bloodreferrals (crid, pnr, collection_date, collection_time, signed, hospital_code, county, barcode1, barcode2, barcode3, file_name) FROM stdin;
+159723	191212121214	2016-04-07	1500	1	302	X	5098121	5098122	5098123	100029_00159722.pdf
+159724	191212121213	2016-04-06	1500	1	301	AB	4098121	4098122	4098123	100029_00159721.pdf
+159725	191212121212	2016-04-05	1500	1	301	AB	3098121	3098122	3098123	100029_00159725.pdf
+\.
+
+
+--
+-- Name: alascca_bloodreferrals_crid_seq; Type: SEQUENCE SET; Schema: public; Owner: referral_writer
+--
+
+SELECT pg_catalog.setval('alascca_bloodreferrals_crid_seq', 1, false);
+
+
+--
+-- Data for Name: alascca_tissuereferrals; Type: TABLE DATA; Schema: public; Owner: referral_writer
+--
+
+COPY alascca_tissuereferrals (crid, pnr, collection_date, radiotherapy, sectioning_date, pad, hospital_code, county, barcode1, barcode2, comments, file_name) FROM stdin;
+159972	191212121217	2016-04-09	1	2016-04-09	X121ZO	301	AB	8098849	8098850	TOLVAN	100029_00159974.pdf
+159973	191212121216	2016-04-08	1	2016-04-08	X121ZO	302	X	7098849	7098850	TOLVAN	100029_00159974.pdf
+159974	191212121215	2016-04-07	0	2016-04-07	X121ZO	301	AB	6098849	6098850	TOLVAN	100029_00159973.pdf
+159975	191212121214	2016-04-06	0	2016-04-06	X121ZO	302	X	5098849	5098850	TOLVAN	100029_00159972.pdf
+159976	191212121213	2016-04-06	0	2016-04-06	X121ZO	301	AB	4098849	4098850	TOLVAN	100029_00159971.pdf
+159977	191212121212	2016-04-05	0	2016-04-05	X121ZO	301	AB	3098849	3098850	TOLVAN	100029_00159977.pdf
+\.
+
+
+--
+-- Name: alascca_tissuereferrals_crid_seq; Type: SEQUENCE SET; Schema: public; Owner: referral_writer
+--
+
+SELECT pg_catalog.setval('alascca_tissuereferrals_crid_seq', 1, false);
+
+
+--
+-- Name: alascca_bloodreferrals_pkey; Type: CONSTRAINT; Schema: public; Owner: referral_writer; Tablespace: 
+--
+
+ALTER TABLE ONLY alascca_bloodreferrals
+    ADD CONSTRAINT alascca_bloodreferrals_pkey PRIMARY KEY (crid);
+
+
+--
+-- Name: alascca_tissuereferrals_pkey; Type: CONSTRAINT; Schema: public; Owner: referral_writer; Tablespace: 
+--
+
+ALTER TABLE ONLY alascca_tissuereferrals
+    ADD CONSTRAINT alascca_tissuereferrals_pkey PRIMARY KEY (crid);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
