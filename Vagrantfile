@@ -155,7 +155,6 @@ Vagrant.configure("2") do |global_config|
             config.vm.synced_folder "/Users/dankle/repos/autoseq-test-data/", "/nfs/ALASCCA/autoseq-test-data"
 
             config.vm.synced_folder "/Users/dankle/repos/autoseq-scripts/", "/home/vagrant/autoseq-scripts"
-            config.vm.synced_folder "/proj/b2010040/python/autoseq", "/home/vagrant/autoseq"
             config.vm.synced_folder "/Users/dankle/repos/", "/home/vagrant/repos"
 
             #VM specifications
