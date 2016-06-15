@@ -116,7 +116,7 @@ sudo ./install.sh install --accept-license
 # postgres server
 sudo yum install -y postgresql-server postgresql-contrib
 sudo postgresql-setup initdb
-sudo sed -i s/\ ident/\ md5/ /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i 's/\ ident/\ md5/' /var/lib/pgsql/data/pg_hba.conf
 sudo systemctl start postgresql
 sudo systemctl enable postgresql
 
