@@ -20,7 +20,7 @@ sudo yum install -y java-1.7.0-openjdk-devel
 sudo yum install -y /vagrant/sbt/sbt-0.13.5.rpm
 sudo yum install -y git nano mailx
 
-# prereqs for for R and python: 
+# prereqs for for R and python:
 sudo yum install -y emacs git perl-ExtUtils-MakeMaker zlib zlib-devel libcurl-devel
 sudo yum install -y readline-devel bzip2-devel sqlite-devel openssl-devel
 
@@ -30,9 +30,9 @@ sudo yum install -y emacs-nox samba gnuplot ImageMagick libxslt-devel libxml2-de
 sudo yum install -y libpng12
 
 # epel
-wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-6.noarch.rpm
+wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 cd /tmp
-sudo rpm -ivh epel-release-7-6.noarch.rpm
+sudo rpm -ivh epel-release-7-8.noarch.rpm
 
 sudo yum install -y ant
 sudo yum install -y htop
@@ -136,6 +136,22 @@ sudo chmod a+w /scratch/tmp
 sudo mkdir -p /nfs/ALASCCA/
 sudo chmod a+w /nfs/ALASCCA
 
+sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
+[dockerrepo]
+name=Docker Repository
+baseurl=https://yum.dockerproject.org/repo/main/centos/7/
+enabled=1
+gpgcheck=1
+gpgkey=https://yum.dockerproject.org/gpg
+EOF
+
+sudo yum install -y docker-engine
+sudo systemctl enable docker.service
+sudo systemctl start docker
+
+sudo groupadd docker
+sudo usermod -aG docker vagrant
+
 SCRIPT
 
 #--------------------------------------
@@ -169,4 +185,3 @@ Vagrant.configure("2") do |global_config|
         end
     end
 end
-
