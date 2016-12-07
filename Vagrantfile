@@ -16,8 +16,6 @@ sudo yum install yum-plugin-fastestmirror
 sudo yum upgrade
 sudo yum -y groupinstall "Development tools"
 
-sudo yum install -y java-1.7.0-openjdk-devel
-sudo yum install -y /vagrant/sbt/sbt-0.13.5.rpm
 sudo yum install -y git nano mailx
 
 # prereqs for for R and python:
@@ -34,8 +32,7 @@ wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epe
 cd /tmp
 sudo rpm -ivh epel-release-7-8.noarch.rpm
 
-sudo yum install -y ant
-sudo yum install -y htop
+sudo yum install -y htop wget
 
 
 #Install the perl modules!
@@ -104,16 +101,7 @@ sudo chkconfig slurm on
 # make accounting file world readable in order to enable `sacct -j jobid` for users to get job stats
 sudo chmod a+r /usr/local/slurm/slurm_accounting.log
 
-# MSSQL driver (and unixODBC driver manager)
-sudo yum install -y unixODBC.x86_64
-cd /tmp
-wget https://download.microsoft.com/download/B/C/D/BCDD264C-7517-4B7D-8159-C99FC5535680/msodbcsql-13.0.0.0.tar.gz
-tar xvfz msodbcsql-13.0.0.0.tar.gz
-cd msodbcsql-13.0.0.0
-sudo ./install.sh verify
-sudo ./install.sh install --accept-license
-
-# postgres server
+############ postgres server ##############
 sudo yum install -y postgresql-server postgresql-contrib
 sudo postgresql-setup initdb
 sudo sed -i 's/\ ident/\ md5/' /var/lib/pgsql/data/pg_hba.conf
@@ -127,7 +115,24 @@ echo "ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT ON TABLES TO referr
 echo "CREATE USER referral_writer WITH PASSWORD 'inserter' CREATEDB;" | sudo -u postgres psql
 echo "GRANT ALL PRIVILEGES ON DATABASE referrals TO referral_writer;" | sudo -u postgres psql
 
-# load example data
+## mongodb ##
+
+sudo tee /etc/yum.repos.d/mongodb.repo <<-'EOF'
+[mongodb]
+name=MongoDB Repository
+baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/
+gpgcheck=0
+enabled=1
+EOF
+
+
+sudo yum -y update
+sudo yum -y install mongodb-org mongodb-org-server
+systemctl start mongod
+systemctl status mongod
+
+
+# load example referral data
 sudo -u postgres psql referrals < /vagrant/dbdump.txt
 
 sudo mkdir -p /scratch/tmp/
@@ -136,21 +141,6 @@ sudo chmod a+w /scratch/tmp
 sudo mkdir -p /nfs/ALASCCA/
 sudo chmod a+w /nfs/ALASCCA
 
-sudo tee /etc/yum.repos.d/docker.repo <<-'EOF'
-[dockerrepo]
-name=Docker Repository
-baseurl=https://yum.dockerproject.org/repo/main/centos/7/
-enabled=1
-gpgcheck=1
-gpgkey=https://yum.dockerproject.org/gpg
-EOF
-
-sudo yum install -y docker-engine
-sudo systemctl enable docker.service
-sudo systemctl start docker
-
-sudo groupadd docker
-sudo usermod -aG docker vagrant
 
 SCRIPT
 
@@ -165,13 +155,9 @@ Vagrant.configure("2") do |global_config|
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
 
-            config.vm.synced_folder "/Users/dankle/repos/aurora", "/nfs/ALASCCA/aurora"
-            config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/autoseq-genome", "/nfs/ALASCCA/autoseq-genome"
-            config.vm.synced_folder "/Users/dankle/nfs/ALASCCA/INBOX", "/nfs/ALASCCA/INBOX"
-            config.vm.synced_folder "/Users/dankle/repos/autoseq-test-data/", "/nfs/ALASCCA/autoseq-test-data"
-
-            config.vm.synced_folder "/Users/dankle/repos/autoseq-scripts/", "/home/vagrant/autoseq-scripts"
-            config.vm.synced_folder "/Users/dankle/repos/", "/home/vagrant/repos"
+            # set up synced folders
+            #config.vm.synced_folder "/Users/dankle/repos/aurora", "/nfs/ALASCCA/aurora"
+            #config.vm.synced_folder "/Users/dankle/repos/", "/home/vagrant/repos"
 
             #VM specifications
             config.vm.provider :virtualbox do |v|
