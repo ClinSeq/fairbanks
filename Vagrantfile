@@ -151,7 +151,7 @@ Vagrant.configure("2") do |global_config|
     machines.each_pair do |name, options|
         global_config.vm.define name do |config|
             #VM configurations
-            config.vm.box = "bento/centos-7.1"
+            config.vm.box = "tomwhi/centos7"
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
 
