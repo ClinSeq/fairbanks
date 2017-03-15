@@ -154,6 +154,7 @@ Vagrant.configure("2") do |global_config|
             config.vm.box = "tomwhi/centos7_v3"
             config.vm.hostname = "#{name}"
             config.vm.network :private_network, ip: options[:ipaddress]
+            config.vm.provision :shell, :inline => "sudo service network restart", run: 'always'
 
             # set up synced folders
             #config.vm.synced_folder "/Users/dankle/repos/aurora", "/nfs/ALASCCA/aurora"
