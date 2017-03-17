@@ -141,6 +141,8 @@ sudo chmod a+w /scratch/tmp
 sudo mkdir -p /nfs/ALASCCA/
 sudo chmod a+w /nfs/ALASCCA
 
+sudo mkdir -p /nfs/ALASCCA/INBOX/exomes
+sudo chmod a+w /nfs/ALASCCA/INBOX/exomes
 
 SCRIPT
 
