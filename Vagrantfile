@@ -28,9 +28,9 @@ sudo yum install -y emacs-nox samba gnuplot ImageMagick libxslt-devel libxml2-de
 sudo yum install -y libpng12
 
 # epel
-wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 cd /tmp
-sudo rpm -ivh epel-release-7-8.noarch.rpm
+sudo rpm -ivh epel-release-7-9.noarch.rpm
 
 sudo yum install -y htop wget
 
@@ -87,9 +87,10 @@ sudo chkconfig munge on
 
 # slurm itself
 cd /tmp
-curl -O http://www.schedmd.com/download/archive/slurm-15.08.8.tar.bz2
-sudo rpmbuild -ta slurm-15.08.8.tar.bz2
-sudo yum localinstall -y /root/rpmbuild/RPMS/x86_64/slurm-15.08.8-1.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-plugins-15.08.8-1.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-munge-15.08.8-1.el7.centos.x86_64.rpm
+wget https://export.uppmax.uu.se/b2010040/slurm-16.05.10-2.tar.bz2
+
+sudo rpmbuild -ta slurm-16.05.10-2.tar.bz2
+sudo yum localinstall -y /root/rpmbuild/RPMS/x86_64/slurm-16.05.10-2.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-plugins-16.05.10-2.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-munge-16.05.10-2.el7.centos.x86_64.rpm
 
 #copy conf
 sudo cp /vagrant/slurm/slurm.conf /etc/slurm/
@@ -128,8 +129,8 @@ EOF
 
 sudo yum -y update
 sudo yum -y install mongodb-org mongodb-org-server
-systemctl start mongod
-systemctl status mongod
+sudo systemctl start mongod
+sudo systemctl status mongod
 
 
 # load example referral data
