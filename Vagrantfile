@@ -28,9 +28,8 @@ sudo yum install -y emacs-nox samba gnuplot ImageMagick libxslt-devel libxml2-de
 sudo yum install -y libpng12
 
 # epel
-wget --no-clobber -P /tmp ftp://ftp.acc.umu.se/mirror/fedora/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 cd /tmp
-sudo rpm -ivh epel-release-7-9.noarch.rpm
+sudo rpm -ivh /vagrant/epel-release-7-9.noarch.rpm
 
 sudo yum install -y htop wget
 
@@ -87,10 +86,9 @@ sudo chkconfig munge on
 
 # slurm itself
 cd /tmp
-wget https://export.uppmax.uu.se/b2010040/slurm-16.05.10-2.tar.bz2
-
-sudo rpmbuild -ta slurm-16.05.10-2.tar.bz2
-sudo yum localinstall -y /root/rpmbuild/RPMS/x86_64/slurm-16.05.10-2.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-plugins-16.05.10-2.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-munge-16.05.10-2.el7.centos.x86_64.rpm
+curl -O https://download.schedmd.com/slurm/slurm-16.05.11.tar.bz2
+sudo rpmbuild -ta slurm-16.05.11.tar.bz2
+sudo yum localinstall -y /root/rpmbuild/RPMS/x86_64/slurm-16.05.11-1.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-plugins-16.05.11-1.el7.centos.x86_64.rpm /root/rpmbuild/RPMS/x86_64/slurm-munge-16.05.11-1.el7.centos.x86_64.rpm
 
 #copy conf
 sudo cp /vagrant/slurm/slurm.conf /etc/slurm/
